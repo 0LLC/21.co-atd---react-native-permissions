@@ -9,16 +9,20 @@
 
 #import "ReactNativePermissions.h"
 
-#if __has_include("RCTConvert.h")
-  #import "RCTConvert.h"
-#else
+#if __has_include(<React/RCTConvert.h>)
   #import <React/RCTConvert.h>
+#elif __has_include("React/RCTConvert.h")
+  #import "React/RCTConvert.h"
+#else
+  #import "RCTConvert.h"
 #endif
 
-#if __has_include("RCTEventDispatcher.h")
-  #import "RCTEventDispatcher.h"
-#else
+#if __has_include(<React/RCTEventDispatcher.h>)
   #import <React/RCTEventDispatcher.h>
+#elif __has_include("React/RCTEventDispatcher.h")
+  #import "React/RCTEventDispatcher.h"
+#else
+  #import "RCTEventDispatcher.h"
 #endif
 
 #import "RNPAudioVideo.h"
@@ -56,11 +60,11 @@ RCT_REMAP_METHOD(canOpenSettings, canOpenSettings:(RCTPromiseResolveBlock)resolv
     resolve(@(UIApplicationOpenSettingsURLString != nil));
 }
 
-    
+
 RCT_EXPORT_METHOD(openSettings:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     if (@(UIApplicationOpenSettingsURLString != nil)) {
-        
+
         NSNotificationCenter * __weak center = [NSNotificationCenter defaultCenter];
         id __block token = [center addObserverForName:UIApplicationDidBecomeActiveNotification
                                                object:nil
@@ -69,7 +73,7 @@ RCT_EXPORT_METHOD(openSettings:(RCTPromiseResolveBlock)resolve rejecter:(RCTProm
                                                [center removeObserver:token];
                                                resolve(@YES);
                                            }];
-        
+
         NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
         [[UIApplication sharedApplication] openURL:url];
     }

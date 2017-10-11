@@ -6,11 +6,14 @@
 //  Copyright © 2016 Yonah Forst. All rights reserved.
 //
 
-#if __has_include("RCTConvert.h")
-  #import "RCTConvert.h"
-#else
+#if __has_include(<React/RCTConvert.h>)
   #import <React/RCTConvert.h>
+#elif __has_include("React/RCTConvert.h")
+  #import "React/RCTConvert.h"
+#else
+  #import "RCTConvert.h"
 #endif
+
 
 static NSString* RNPStatusUndetermined = @"undetermined";
 static NSString* RNPStatusDenied = @"denied";
